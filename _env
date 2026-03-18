@@ -1,0 +1,21 @@
+FIAT_API_KEY=
+
+# Local
+DB_TYPE="postgres"
+DB_HOST="localhost"
+DB_PORT="5432"
+DB_USER=
+DB_PASS=
+DB_NAME="credpal_db"
+DATABASE_URI=
+
+# email
+MAIL_USER=
+MAIL_PASS=
+MAIL_HOST=
+MAIL_PORT=
+
+
+JWT_SECRET=
+
+NODE_ENV=development

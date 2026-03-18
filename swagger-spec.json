@@ -1,0 +1,730 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_createUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntity"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a new user",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/verify": {
+      "post": {
+        "operationId": "AuthController_verifyUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntity"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Verify a user",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "operationId": "AuthController_signin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Sign in a user",
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/wallet/transactions": {
+      "get": {
+        "operationId": "WalletController_getTransactions",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 30,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": [
+                "updatedAt"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "include",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "walletId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "currency",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "NGN",
+                "USD",
+                "EUR",
+                "GBP"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "SUCCESS",
+                "FAILED"
+              ]
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CREDIT",
+                "DEBIT",
+                "REVERSAL"
+              ]
+            }
+          },
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "View transaction history",
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/wallet/{currency}": {
+      "get": {
+        "operationId": "WalletController_getWallets",
+        "parameters": [
+          {
+            "name": "currency",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "NGN",
+                "USD",
+                "EUR",
+                "GBP"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletEntity"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all user wallet balances",
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/wallet/fund": {
+      "post": {
+        "operationId": "WalletController_fundWallet",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FundWallet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Fund wallet in NGN or other currencies",
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/wallet/convert": {
+      "post": {
+        "operationId": "WalletController_convert",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Convert"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Convert between currencies using real-time FX rates",
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/wallet/trade": {
+      "post": {
+        "operationId": "WalletController_trade",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Trade"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Trade Naira with other currencies and vice versa",
+        "tags": [
+          "Wallet"
+        ]
+      }
+    },
+    "/wallet/fx-rates/{currency}": {
+      "get": {
+        "operationId": "WalletController_getFxRates",
+        "parameters": [
+          {
+            "name": "currency",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "enum": [
+                "NGN",
+                "USD",
+                "EUR",
+                "GBP"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Retrieve current FX rates for supported currency pairs",
+        "tags": [
+          "Wallet"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "CredPal API",
+    "description": "CredPal API endpoints",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateUser": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User email"
+          },
+          "fullname": {
+            "type": "string",
+            "description": "User fullname"
+          },
+          "refercode": {
+            "type": "string",
+            "description": "User refercode"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password"
+          }
+        },
+        "required": [
+          "email",
+          "fullname",
+          "password"
+        ]
+      },
+      "UserEntity": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "fullname": {
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "user",
+              "admin"
+            ],
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "expiredAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "refercode": {
+            "type": "string"
+          },
+          "referralCode": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "fullname",
+          "role",
+          "verified",
+          "referralCode",
+          "password",
+          "id",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "VerifyUser": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User email"
+          },
+          "token": {
+            "type": "string",
+            "description": "User token"
+          }
+        },
+        "required": [
+          "email",
+          "token"
+        ]
+      },
+      "SignInUser": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "WalletEntity": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "NGN",
+              "USD",
+              "EUR",
+              "GBP"
+            ]
+          },
+          "balance": {
+            "type": "number"
+          },
+          "ledgerBalance": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "PENDING",
+              "BLOCKED",
+              "SUSPENDED"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "currency",
+          "balance",
+          "ledgerBalance",
+          "status",
+          "id",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "FundWallet": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "minimum": 1
+          },
+          "currency": {
+            "enum": [
+              "NGN",
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "type": "string"
+          },
+          "idempotency": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "narration": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "idempotency"
+        ]
+      },
+      "Convert": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "minimum": 1
+          },
+          "from": {
+            "enum": [
+              "NGN",
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "type": "string"
+          },
+          "to": {
+            "enum": [
+              "NGN",
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "type": "string"
+          },
+          "idempotency": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "amount",
+          "from",
+          "to",
+          "idempotency"
+        ]
+      },
+      "Trade": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "minimum": 1
+          },
+          "from": {
+            "enum": [
+              "NGN",
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "type": "string"
+          },
+          "to": {
+            "enum": [
+              "NGN",
+              "USD",
+              "EUR",
+              "GBP"
+            ],
+            "type": "string"
+          },
+          "idempotency": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "amount",
+          "from",
+          "to",
+          "idempotency"
+        ]
+      }
+    }
+  }
+}
