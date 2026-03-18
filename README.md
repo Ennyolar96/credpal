@@ -87,7 +87,7 @@ sequenceDiagram
 
 1.  Clone the repository:
     ```bash
-    git clone <repository-url>
+    git clone <https://github.com/Ennyolar96/credpal.git>
     cd credpal
     ```
 2.  Install dependencies:
@@ -165,4 +165,3 @@ To handle millions of users and high transaction volumes, the following strategi
 4.  **Auth Integration**: The system assumes an `AuthUser` is available via `@SessionUser()` and that the user's `NGN` wallet is the primary funding source.
 5.  **Initial Balance**: New wallets created dynamically start with a balance of `0`.
 6.  **Accuracy**: `big.js` is used for all calculations to avoid floating-point errors (e.g., `0.1 + 0.2 !== 0.3`).
-# credpal
